@@ -17,3 +17,4 @@ class Ders {
 const matematik = new Ders("matematik","Umut");
 
 console.log(matematik.getClassNameWithTeacher());
+
