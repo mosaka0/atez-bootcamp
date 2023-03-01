@@ -1,5 +1,6 @@
 //Typescript kuralları belirleyerek kodda hata yapmayı azaltır, sınırları belirler.
 //npm install -global typescript : bilgisayarın typescript'i compile etmesini sağlayacak.
+//macte çalıştırmak için npx tsc file_name
 let userInput:number[] = [];
 //tanımlama yaparken sadece number verebilecez. String yaparsak sadece string-
 userInput = [2,3,5];
