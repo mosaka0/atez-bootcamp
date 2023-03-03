@@ -355,9 +355,9 @@ interface ITelevision extends IProduct {
 interface IProductApi<T> {
     findAll<T extends IProduct> () : T[]; //Parantez içi IProduct'da olabilir.
 
- /*   findByCategory <T extends IProduct>(category:string): T[];*/
+    findByCategory <T extends IProduct>(category:string): T[];
 
-   // findByText: (input:string) => void;
+    findByText: (input:string) => void;
 }
 
 // donecegimiz datalar.
