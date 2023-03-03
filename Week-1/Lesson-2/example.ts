@@ -33,11 +33,31 @@ const mahmut: Yilan =  {
     skin_color: "orange",
     toxic :true
 };
+
+
 const showObj = (yilan: {age: number, length: number, name:string,toxic?:boolean}): string => {
     return `Snake name is ${yilan.name} and it is ${yilan.length} cm also it is ${yilan.age} years old.`
 }
 
 console.log(showObj(mahmut));
+
+// *------------------------------*
+
+// implements
+interface Namegenerator {
+
+    name: string;
+    surName: string;
+    generate: () => string;
+}
+
+class Generator implements Namegenerator {
+    name: "Onur";
+    surName: "Saka";
+    generate(){
+        return `${this.name} ${this.surName}`;
+    }
+}
 
 
 
