@@ -1,0 +1,10 @@
+{
+  "type": "module",
+  "dependencies": {
+    "os": "^0.1.2",
+    "process": "^0.11.10"
+  },
+  "scripts": {
+    "start": "node builtin.functions.js"
+  }
+}
