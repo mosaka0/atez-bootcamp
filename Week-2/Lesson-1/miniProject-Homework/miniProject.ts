@@ -121,6 +121,7 @@ class ProductApi implements IProductApi<IProduct> {
     }
 
     findByCategory <T extends IProduct> (category: string): T[] {
+
         const splitedData : any[] = dummyData.map(product => { //T hata veriyor??
             if(category === product.category){
                 if(product.category === 'smartphones'){
