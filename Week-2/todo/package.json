@@ -1,22 +1,20 @@
 {
   "name": "todo-cli",
   "version": "1.0.0",
-  "type": "module",
-  "description": "Command based todo cli app",
+  "description": "",
   "main": "index.js",
+  "type": "module",
+  "bin": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsc && node index.js"
   },
-  "author": "Mirac Onur",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/fs-extra": "^11.0.1",
-    "@types/inquirer": "^9.0.3",
-    "@types/node": "^18.14.6",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^4.9.5"
-  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "inquirer": "^9.1.4"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.3"
   }
 }

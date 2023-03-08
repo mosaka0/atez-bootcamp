@@ -1,74 +1,159 @@
 #!/usr/bin/env node
+
+//module: NodeNext
+//moduleResolution: NodeNext
 import inquirer from "inquirer";
 import chalk from "chalk";
 
+/*interface ITasks{
+    id: number;
+    name: string;
+    checked: boolean;
+    createdDate: number;
+}*/
 console.clear();
 
-console.log(chalk.greenBright("Todo-cli App"));
+console.log(chalk.greenBright("Todo-cli APP"));
 
-let tasks = [];
+interface ITasks{
+    name:string,
+    checked:boolean,
+    createdDate:number
+}
 
-async function App(){
-    const Todos: {App : String} = await inquirer.prompt([
+let tasks: ITasks[] = [];
+
+
+
+async function App() {
+    const todos: { App: string } = await inquirer.prompt([
         {
             name: "App",
             type: "list",
-            message: "Please select your operation",
-            choices: ["listTasks","addTask","deleteTask","updateTask","completeTask","exit"]
+            message: "Yapacağınız işlemi seçin",
+            choices: [
+                "listTasks", "addTask", "deleteTask", "editTask", "checkTask", "exit"]
         }
     ]);
-    if (Todos.App === "listTasks") {
-        listTask();
-    }
-    else if (Todos.App === "addTask") {
+    if (todos.App === "listTasks") {
+        listTasks()
+    } else if (todos.App === "addTask") {
         console.clear()
         addTask()
-    }
-  /*  else if (Todos.App === "deleteTask") {
+    } else if (todos.App === "deleteTask") {
         deleteTask()
+    } else if (todos.App === "editTask") {
+        editTask()
+    } else if (todos.App === "checkTask") {
+        checkTask()
     }
-    else if (Todos.App === "updateTask") {
-        updateTask()
-    }*/
-    else if (Todos.App === "completeTask") {
-        if (tasks.length > 0) {
-            tasks = []
-            console.log("YOUR ALL TASKS DELETED");
-            App()
-        }
-        else {
-            console.log(chalk.redBright("NO TASKS FOUND"));
-
-        }
-    }
-    else if (Todos.App === "exit") {
+    else if (todos.App === "exit") {
         console.log(chalk.yellow("THANKS FOR USE TODO APP"))
     }
 }
 
-async function listTask() {
+//görevleri listele
+async function listTasks() {
     if (tasks.length > 0) {
-        console.log(chalk.green("YOUR ALL TASKS"));
-        tasks.map((todo) => {
-            let tasksindex = tasks.indexOf(todo) + 1;
-            console.log(`Task#${tasksindex}:  ${todo}`);
+        tasks.map((task,index) => {
+            console.log(`#${index+1}: ${task.name}  -- ${task.createdDate} -- ${task.checked ? chalk.green('yapıldı') : chalk.red('yapılmadı')}`);
         })
-    } else {
-        console.log(chalk.redBright("NO TASKS FOUND"));
+    }
+    else {
+        console.log(chalk.redBright("Yapılacak görev yok"));
+    }
+    App();
+
+}
+
+//görev ekle
+async function addTask() {
+    const time = new Date();
+    const todos: { taskName: string } = await inquirer.prompt([
+        {
+            name: "taskName",
+            type: "input",
+            Message: "Görev ekleyin"
+        },
+    ])
+    tasks.push({
+        name:todos.taskName,
+        checked:false,
+        createdDate: time.getTime()
+    });
+    App()
+
+}
+
+
+//görev sil
+async function deleteTask() {
+    const delTodos: { deleteTask: number } = await inquirer.prompt([
+        {
+            name: "deleteTask",
+            type: "input",
+            Message: "Silinecek görevin numarasını belirtin"
+        },
+    ])
+    let indexNum = delTodos.deleteTask
+    if (tasks.length > 0 && tasks.length <= indexNum) {
+        tasks.splice(indexNum - 1, 1);
+    }
+    else {
+        console.log(chalk.redBright("Hatalı numara!"));
     }
     App()
 }
 
-async function addTask() {
-    const Todos: { AddTask: string } = await inquirer.prompt([
+//görev adını değiştir
+async function editTask() {
+    const editTodos: { editTask: number, NewTaskName: string } = await inquirer.prompt([
         {
-            name: "AddTask",
+            name: "editTask",
             type: "input",
-            Message: "please add todo"
+            Message: "Değiştireceğiniz görevin numarasını belirtin"
         },
+        {
+            name: "NewTaskName",
+            type: "input",
+            message: "Yeni görevi girin:"
+        }
     ])
-    tasks.push(Todos.AddTask);
+    const indexNum = editTodos.editTask
+    const newName = editTodos.NewTaskName
+    const result = {
+        name:newName,
+        checked: tasks[indexNum-1].checked as boolean,
+        createdDate:tasks[indexNum-1].createdDate as number,
+    }
+    if (tasks.length > 0) {
+        tasks.splice(indexNum - 1, 1, result);
+    }
+    else {
+        console.log(chalk.redBright("Yapılacak görev yok"));
+    }
     App()
 }
 
-App();
+//görevin kontrolünü değiştir
+async function checkTask() {
+    const checkTodos: { taskCheck: number } = await inquirer.prompt([
+        {
+            name: "taskCheck",
+            type: "input",
+            Message: "Yaptığınız görevi doğrulamak onaylamak veya onayladığınız görevi onayını kaldırmak için numarasını belirtin:"
+        },
+    ])
+    const indexNum = checkTodos.taskCheck;
+    console.log("indexNum",indexNum);
+    const doReverse:boolean = tasks[indexNum-1].checked ? false : true;
+    const result = {
+        name:tasks[indexNum-1].name as string,
+        checked: doReverse,
+        createdDate:tasks[indexNum-1].createdDate as number,
+    }
+    tasks.splice(indexNum-1,1,result);
+
+    App();
+}
+App()
