@@ -15,7 +15,7 @@ const fs = require('fs');
 
 http.createServer((req,res) => {
     const pathQuery = url.parse(req.url,true);
-    const fileName = `.${pathQuery.pathname}`;
+    const fileName = `.${pathQuery.pathname}`+`.html`;
 
     fs.readFile(fileName,(err,data) => {
         if(err){
@@ -26,4 +26,5 @@ http.createServer((req,res) => {
         res.write(data);
         return res.end();
     })
-})
+}).listen(3000);
+
